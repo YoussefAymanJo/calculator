@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropletic | Home</title>
+    <link rel="stylesheet" href="caulator.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header class="top-nav">
+        <div class="top-nav-left">
+            <div class="brand-mark">
+                <div class="brand-icon">
+                    <img src="Logo 1.svg" alt="" class="brand-icon">
+                </div>
+                <div class="brand-label">
+                    <span class="brand-name-main">Dropletic</span>
+                </div>
+            </div>
+        </div>
+        <nav class="top-nav-center">
+            <a href="#" class="nav-link">Home</a>
+            <a href="#" class="nav-link active">Calculator</a>
+            <a href="#" class="nav-link">Challenges</a>
+            <a href="#" class="nav-link">About Us</a>
+        </nav>
+        <div class="top-nav-right">
+            <button class="icon-btn" aria-label="Search">
+                <i class="bx bx-search"></i>
+            </button>
+            <button id="logout-btn" class="pill-btn">
+                <i class="bx bx-log-out"></i>
+                <span>Log out</span>
+            </button>
+            <div class="user-avatar" aria-hidden="true">
+                <span class="user-initial">D</span>
+            </div>
+        </div>
+    </header>
+    <main class="page-content">
+        <section class="grid-section">
+            <div class="section-header">
+                <h2>Water Consumption Calculator</h2>
+                <p>Estimate your daily water usage based on your property type, location weather, and usage details.</p>
+            </div>
+
+            <div class="calculator-dashboard">
+
+                <div class="calculator-card">
+                    <div class="form-group">
+                        <label>User Type</label>
+                        <select id="userType" onchange="toggleFields()">
+                            <option value="household">Household</option>
+                            <option value="organization">Organization</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>User Location (Used for Weather Impact)</label>
+                        <select id="Location" onchange="handleLocationChange()">
+                            <option value="alexandria">Alexandria</option>
+                            <option value="aswan">Aswan</option>
+                            <option value="asyut">Asyut</option>
+                            <option value="beheira">Beheira</option>
+                            <option value="beni_suef">Beni Suef</option>
+                            <option value="cairo" selected>Cairo</option>
+                            <option value="dakahlia">Dakahlia</option>
+                            <option value="damietta">Damietta</option>
+                            <option value="faiyum">Faiyum</option>
+                            <option value="gharbia">Gharbia</option>
+                            <option value="giza">Giza</option>
+                            <option value="ismailia">Ismailia</option>
+                            <option value="kafr_el_sheikh">Kafr El Sheikh</option>
+                            <option value="luxor">Luxor</option>
+                            <option value="matrouh">Matrouh</option>
+                            <option value="minya">Minya</option>
+                            <option value="monufia">Monufia</option>
+                            <option value="new_valley">New Valley</option>
+                            <option value="north_sinai">North Sinai</option>
+                            <option value="port_said">Port Said</option>
+                            <option value="qalyubia">Qalyubia</option>
+                            <option value="qena">Qena</option>
+                            <option value="red_sea">Red Sea</option>
+                            <option value="sharqia">Sharqia</option>
+                            <option value="sohag">Sohag</option>
+                            <option value="south_sinai">South Sinai</option>
+                            <option value="suez">Suez</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Bathrooms</label>
+                        <input type="number" id="bathrooms" min="0" value="1" oninput="calculateWater()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Kitchens</label>
+                        <input type="number" id="kitchens" min="0" value="1" oninput="calculateWater()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Do you have a garden?</label>
+                        <select id="has-garden" onchange="toggleFields()">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group garden-field" style="display:none;">
+                        <label>Estimated Garden Area (m²)</label>
+                        <input type="number" id="gardenArea" min="0" value="0" oninput="calculateWater()">
+                    </div>
+
+                    <div class="form-group household-field">
+                        <label>Number of Family Members</label>
+                        <input type="number" id="familyMembers" min="1" value="1" oninput="calculateWater()">
+                    </div>
+
+                    <div class="form-group org-field" style="display:none;">
+                        <label>Number of Employees</label>
+                        <input type="number" id="employees" min="0" value="0" oninput="calculateWater()">
+                    </div>
+                    <div class="form-group org-field" style="display:none;">
+                        <label>Number of Customers per Day</label>
+                        <input type="number" id="customers" min="0" value="0" oninput="calculateWater()">
+                    </div>
+
+                    <button class="calc-btn primary" onclick="calculateWater()">Calculate Usage</button>
+                </div>
+                <div class="chart-card">
+                    <div class="result-box">
+                        <h3>Estimated Daily Usage</h3>
+                        <p id="resultText">0 Liters / Day</p>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="usageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-heading">
+                <h3>Contact Us</h3>
+                <p>Reach out to the Dropletic team for collaboration, questions, or feedback.</p>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-item">
+                    <span class="footer-label"><i class="bx bx-phone-call"></i> Phone</span>
+                    <p>201551003555</p>
+                    <p>201551003555</p>
+                </div>
+                <div class="footer-item">
+                    <span class="footer-label"><i class="bx bx-map"></i> Location</span>
+                    <p>STEM 6th of October, Cosmic Village, October Gardens</p>
+                </div>
+                <div class="footer-item">
+                    <span class="footer-label"><i class="bx bx-envelope"></i> Email</span>
+                    <p>dropletic@stemnova.org</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="footer-year"></span> Dropletic. All rights reserved.</span>
+        </div>
+    </footer>
+    <script src="caculator.js"></script>
+</body>
+
+</html>
